@@ -93,17 +93,27 @@ brew install pipx
 pipx ensurepath
 ```
 
-#### 5. Set Up Virtual Environment with uv
+#### 5. Set Up Virtual Environment with uv and windows
 
 ```zsh
 uv venv .venv
 source .venv/bin/activate
 ```
 
+``` windows
+python -m venv .venv    
+.venv\Scripts\activate 
+```
+
+
 #### 6. Install Dependencies
 
 ```zsh
 uv pip install -r requirements.txt
+```
+
+```windows
+python -m pip install -r requirements.txt
 ```
 
 #### 7. (Optional) Set up Environment Variables
@@ -122,16 +132,12 @@ uv pip install jupyterlab  # Only if not already installed
 jupyter lab
 ```
 
----
-
 ## Usage
 
 - Open and run Jupyter notebooks in `Graphs/` and `Exercises/` for hands-on practice and exploration.
 - Run agent scripts in `Agents/` for more advanced experiments.
 - All code is designed to work in a local, isolated Python environment managed by pyenv and uv.
-
 ---
-
 ## Exercises
 
 - Explore the `Exercises/` directory for self-contained solutions to LangGraph problems.
@@ -140,7 +146,6 @@ jupyter lab
   - `Exercise_Graph2.ipynb`: User input and graph visualization.
   - `Exercise_Graph3.ipynb`: Personalization and skills-based responses.
   - `Exercise_Graph4.ipynb`, `Exercise_Graph5.ipynb`: Advanced graph operations.
-
 ---
 
 ## Requirements
@@ -156,10 +161,16 @@ Core dependencies (see `requirements.txt` for full list):
 - typing
 - chromadb
 - langchain_chroma
+- pypdf
 
 Install all dependencies with:
 
 ```zsh
 uv pip install -r requirements.txt
+```
+
+```
+## Contributing
+pip install -r requirements.txt
 ```
 

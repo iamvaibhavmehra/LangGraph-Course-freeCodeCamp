@@ -11,8 +11,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.tools import tool
 
-load_dotenv()
+# Set your OpenAI API key here
+os.environ["OPENAI_API_KEY"] = "api_key"
+load_dotenv(dotenv_path=".env") # Load environment variables from .env file
+print("API KEY:", os.getenv("OPENAI_API_KEY"))
+# load_dotenv()
 
+# This is a RAG (Retrieval-Augmented Generation) Agent that uses a PDF document to answer questions about stock market performance in 2024.
+# It uses the LangGraph library to create a state graph that manages the flow of conversation.
 llm = ChatOpenAI(
     model="gpt-4o", temperature = 0) # I want to minimize hallucination - temperature = 0 makes the model output more deterministic 
 
@@ -44,8 +50,8 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=200
 )
-
-
+# This splits the text into smaller chunks for better processing
+# We can also use other text splitters like CharacterTextSplitter, etc.
 pages_split = text_splitter.split_documents(pages) # We now apply this to our pages
 
 persist_directory = r"C:\Vaibhav\LangGraph_Book\LangGraphCourse\Agents"
@@ -77,6 +83,7 @@ retriever = vectorstore.as_retriever(
     search_kwargs={"k": 5} # K is the amount of chunks to return
 )
 
+# This tool will be used to retrieve information from the Stock Market Performance 2024 document
 @tool
 def retriever_tool(query: str) -> str:
     """
