@@ -8,19 +8,20 @@ from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
+import os
 
-
-load_dotenv()
+# load_dotenv()
+os.environ["OPENAI_API_KEY"] = "api_key"
+load_dotenv(dotenv_path=".env") # Load environment variables from .env file
+print("API KEY:", os.getenv("OPENAI_API_KEY"))
 
 class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], add_messages]
 
-
 @tool
 def add(a: int, b:int):
     """This is an addition function that adds 2 numbers together"""
-
-    return a + b 
+    return a + b
 
 @tool
 def subtract(a: int, b: int):
@@ -35,7 +36,6 @@ def multiply(a: int, b: int):
 tools = [add, subtract, multiply]
 
 model = ChatOpenAI(model = "gpt-4o").bind_tools(tools)
-
 
 def model_call(state:AgentState) -> AgentState:
     system_prompt = SystemMessage(content=
@@ -53,10 +53,8 @@ def should_continue(state: AgentState):
     else:
         return "continue"
     
-
 graph = StateGraph(AgentState)
 graph.add_node("our_agent", model_call)
-
 
 tool_node = ToolNode(tools=tools)
 graph.add_node("tools", tool_node)
@@ -73,9 +71,7 @@ graph.add_conditional_edges(
 )
 
 graph.add_edge("tools", "our_agent")
-
 app = graph.compile()
-
 def print_stream(stream):
     for s in stream:
         message = s["messages"][-1]
