@@ -7,7 +7,12 @@ from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 
-load_dotenv()
+# load_dotenv()
+
+import os
+os.environ["OPENAI_API_KEY"] = "api_key"
+load_dotenv(dotenv_path=".env") # Load environment variables from .env file
+print("API KEY:", os.getenv("OPENAI_API_KEY"))
 
 # This is the global variable to store document content
 document_content = ""

@@ -7,3 +7,4 @@ dotenv
 typing
 chromadb
 langchain_chroma
+pypdf
