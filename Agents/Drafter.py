@@ -64,7 +64,7 @@ def our_agent(state: AgentState) -> AgentState:
     """)
 
     if not state["messages"]:
-        user_input = "I'm ready to help you update a document. What would you like to create?"
+        user_input = input("I'm ready to help you update a document. What would you like to create?")
         user_message = HumanMessage(content=user_input)
 
     else:
